@@ -1,0 +1,35 @@
+﻿@page
+@model Web.Pages.Productos.DetalleModel
+
+@{
+    ViewData["Title"] = "Detalle del producto";
+}
+
+<h1>Detalle del producto</h1>
+
+@if (!string.IsNullOrEmpty(Model.MensajeError))
+{
+    <div class="alert alert-danger">
+        @Model.MensajeError
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Id:</strong> @Model.Producto.Id</p>
+            <p><strong>Nombre:</strong> @Model.Producto.Nombre</p>
+            <p><strong>Descripción:</strong> @Model.Producto.Descripcion</p>
+            <p><strong>Precio:</strong> @Model.Producto.Precio</p>
+            <p><strong>Stock:</strong> @Model.Producto.Stock</p>
+            <p><strong>Código de barras:</strong> @Model.Producto.CodigoBarras</p>
+            <p><strong>Subcategoría:</strong> @Model.Producto.SubCategoria</p>
+            <p><strong>Categoría:</strong> @Model.Producto.Categoria</p>
+            <p><strong>Precio USD:</strong> @Model.Producto.PrecioUSD</p>
+        </div>
+    </div>
+}
+
+<p class="mt-3">
+    <a asp-page="/Productos/Index" class="btn btn-secondary">Volver</a>
+</p>

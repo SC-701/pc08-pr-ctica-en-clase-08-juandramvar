@@ -1,0 +1,19 @@
+﻿-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE EliminarProducto
+	@Id UNIQUEIDENTIFIER
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION
+		DELETE
+		FROM Producto
+		WHERE Id = @Id
+
+		SELECT @Id
+	COMMIT TRANSACTION
+END

@@ -1,0 +1,50 @@
+﻿@page
+@model Web.Pages.Productos.AgregarModel
+
+@{
+    ViewData["Title"] = "Agregar producto";
+}
+
+<h1>Agregar producto</h1>
+
+@if (!string.IsNullOrEmpty(Model.MensajeError))
+{
+    <div class="alert alert-danger">
+        @Model.MensajeError
+    </div>
+}
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Producto.Nombre" class="form-label"></label>
+        <input asp-for="Producto.Nombre" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Producto.Descripcion" class="form-label"></label>
+        <input asp-for="Producto.Descripcion" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Producto.Precio" class="form-label"></label>
+        <input asp-for="Producto.Precio" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Producto.Stock" class="form-label"></label>
+        <input asp-for="Producto.Stock" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Producto.CodigoBarras" class="form-label"></label>
+        <input asp-for="Producto.CodigoBarras" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Producto.IdSubCategoria" class="form-label"></label>
+        <input asp-for="Producto.IdSubCategoria" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-page="/Productos/Index" class="btn btn-secondary">Cancelar</a>
+</form>
