@@ -1,0 +1,18 @@
+Buenas Profesor,
+Queria comentarte 3 cosas para que mi commit actual funcione.
+---
+1. Estoy haciendo una publicacion de nugets local, asi que se tendria que instalar cada uno con las version 1.0.4 individualmente en el nuget manager en Producto.API. Porque no entendi bien el como agregarlos, porque parece que mi yaml y csproj estaban bien, es mas que todo por permisos del repositorio. Y es que justo esa parte esta un poco cortada en los videos, asi que por ahora no logre subirlos.
+---
+2. Yo estoy trabajando con la base basica de productos que realizamos, la que tiene solo
+dbo.Categorias
+dbo.Producto
+dbo.SubCategorias
+Esta no contempla ususarios y en las practicas anteriores no se contempla agregar categorias o subcategorias, asi que para hacerlo funcionar tendrias que crear una categoria y sub categoria a mano desde tu maquina, y colocar el id de la subcategoria para agregar el producto.
+---
+3. Por el hecho de las bases de datos, no existe una tabla de usuarios, asi que para probar tengo un usuario dentro del codigo, que es:
+usuario: admin
+password: 123
+Si se intenta iniciar sesion con cualquier otro tipo de usuario no funciona y pide el login si se quiere saltar directamente a otra pantalla mediante un link.
+---
+PD: Se que todos estos errores son mejorables, ya sea agregando los apartados de cruds de categoria/subcategoria y una tabla de usuarios, pero estoy intentando seguir lo mas que puedo las instrucciones dadas, no tanto hacer estos extras para que quede full bonito, si no como que cumplir los objetivos lo mas que pueda.
+
