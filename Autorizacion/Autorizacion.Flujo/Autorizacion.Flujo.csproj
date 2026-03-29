@@ -4,11 +4,11 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<PackageId>Autorizacion.Flujo.juandramvar</PackageId>
 		<Authors>juandramvar</Authors>
 		<Description>Lógica de autorización para ASP.NET Core 8</Description>
-		<RepositoryUrl>https://github.com/SC701</RepositoryUrl>
+		<RepositoryUrl>https://github.com/SC-701/pc08-pr-ctica-en-clase-08-juandramvar</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
