@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Version>1.0.3</Version>
+		<PackageId>Autorizacion.Flujo.juandramvar</PackageId>
+		<Authors>juandramvar</Authors>
+		<Description>Lógica de autorización para ASP.NET Core 8</Description>
+		<RepositoryUrl>https://github.com/SC701</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Autorizacion.Abstracciones\Autorizacion.Abstracciones.csproj" />
+    <ProjectReference Include="..\Autorizacion.DA\Autorizacion.DA.csproj" />
+  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+</Project>

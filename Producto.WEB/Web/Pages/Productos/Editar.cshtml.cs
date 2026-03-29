@@ -1,12 +1,15 @@
 using Abstracciones.Modelos.Producto;
 using Abstracciones.Reglas;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
 namespace Web.Pages.Productos
 {
+    [Authorize]
     public class EditarModel : PageModel
     {
         private readonly IConfiguracion _configuracion;
@@ -20,20 +23,29 @@ namespace Web.Pages.Productos
         public ProductoRequest Producto { get; set; } = new ProductoRequest();
 
         public string MensajeError { get; set; } = string.Empty;
-        public string UrlConsumida { get; set; } = string.Empty;
 
         public async Task<IActionResult> OnGet(Guid id)
         {
+            var token = User.Claims.FirstOrDefault(c => c.Type == "AccessToken")?.Value;
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToPage("/Seguridad/Login");
+            }
+
             if (id == Guid.Empty)
             {
                 return RedirectToPage("/Productos/Index");
             }
 
             var endPoint = _configuracion.ObtenerEndPoints();
-            UrlConsumida = $"{endPoint.UrlBase.TrimEnd('/')}/{endPoint.Metodos["ObtenerProducto"].TrimStart('/')}/{id}";
+            var url = $"{endPoint.UrlBase.TrimEnd('/')}/{endPoint.Metodos["ObtenerProducto"].TrimStart('/')}/{id}";
 
             using var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(UrlConsumida);
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
@@ -69,26 +81,35 @@ namespace Web.Pages.Productos
 
         public async Task<IActionResult> OnPost(Guid id)
         {
+            var token = User.Claims.FirstOrDefault(c => c.Type == "AccessToken")?.Value;
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToPage("/Seguridad/Login");
+            }
+
+            if (id == Guid.Empty)
+            {
+                return RedirectToPage("/Productos/Index");
+            }
+
             if (Producto.IdSubCategoria == Guid.Empty)
             {
-                MensajeError = "El Id de Subcategoría no es válido o no existe.";
+                MensajeError = "El Id de Subcategoría no es válido.";
                 return Page();
             }
 
             var endPoint = _configuracion.ObtenerEndPoints();
-            UrlConsumida = $"{endPoint.UrlBase.TrimEnd('/')}/{endPoint.Metodos["EditarProducto"].TrimStart('/')}/{id}";
+            var url = $"{endPoint.UrlBase.TrimEnd('/')}/{endPoint.Metodos["EditarProducto"].TrimStart('/')}/{id}";
 
             using var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
 
-            var opciones = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-
-            var json = JsonSerializer.Serialize(Producto, opciones);
+            var json = JsonSerializer.Serialize(Producto);
             var contenido = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PutAsync(UrlConsumida, contenido);
+            var response = await httpClient.PutAsync(url, contenido);
 
             if (response.IsSuccessStatusCode)
             {

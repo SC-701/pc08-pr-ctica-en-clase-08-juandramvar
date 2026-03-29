@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Version>1.0.3</Version>
+		<PackageId>Autorizacion.Middleware.juandramvar</PackageId>
+		<Authors>juandramvar</Authors>
+		<Description>Middleware de autorización por claims para ASP.NET Core 8</Description>
+		<RepositoryUrl>https://github.com/SC701</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Autorizacion.Abstracciones\Autorizacion.Abstracciones.csproj" />
+		<ProjectReference Include="..\Autorizacion.DA\Autorizacion.DA.csproj" />
+		<ProjectReference Include="..\Autorizacion.Flujo\Autorizacion.Flujo.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+</Project>

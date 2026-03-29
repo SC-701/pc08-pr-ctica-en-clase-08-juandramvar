@@ -1,11 +1,27 @@
 using Abstracciones.Reglas;
 using Reglas;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Productos");
+    options.Conventions.AllowAnonymousToPage("/Seguridad/Login");
+    options.Conventions.AllowAnonymousToPage("/Seguridad/AccesoDenegado");
+    options.Conventions.AllowAnonymousToPage("/Index");
+    options.Conventions.AllowAnonymousToPage("/Privacy");
+});
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Seguridad/Login";
+        options.AccessDeniedPath = "/Seguridad/AccesoDenegado";
+    });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -21,7 +37,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

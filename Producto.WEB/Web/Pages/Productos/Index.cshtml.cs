@@ -1,10 +1,14 @@
 using Abstracciones.Modelos.Producto;
 using Abstracciones.Reglas;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace Web.Pages.Productos
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly IConfiguracion _configuracion;
@@ -16,15 +20,24 @@ namespace Web.Pages.Productos
 
         public List<ProductoResponse> Productos { get; set; } = new List<ProductoResponse>();
         public string MensajeError { get; set; } = string.Empty;
-        public string UrlConsumida { get; set; } = string.Empty;
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            var token = User.Claims.FirstOrDefault(c => c.Type == "AccessToken")?.Value;
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToPage("/Seguridad/Login");
+            }
+
             var endPoint = _configuracion.ObtenerEndPoints();
-            UrlConsumida = $"{endPoint.UrlBase.TrimEnd('/')}/{endPoint.Metodos["ObtenerProductos"].TrimStart('/')}";
+            var url = $"{endPoint.UrlBase.TrimEnd('/')}/{endPoint.Metodos["ObtenerProductos"].TrimStart('/')}";
 
             using var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(UrlConsumida);
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
@@ -41,6 +54,8 @@ namespace Web.Pages.Productos
                 var detalle = await response.Content.ReadAsStringAsync();
                 MensajeError = $"Status: {(int)response.StatusCode} - {response.ReasonPhrase}. Detalle: {detalle}";
             }
+
+            return Page();
         }
     }
 }

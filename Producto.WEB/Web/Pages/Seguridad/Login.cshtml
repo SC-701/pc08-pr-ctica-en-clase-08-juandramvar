@@ -1,0 +1,25 @@
+﻿@page
+@model Web.Pages.Seguridad.LoginModel
+
+<h2>Login</h2>
+
+@if (!string.IsNullOrEmpty(Model.MensajeError))
+{
+    <div class="alert alert-danger">@Model.MensajeError</div>
+}
+
+<form method="post">
+    <div>
+        <label>Usuario</label>
+        <input asp-for="LoginInput.NombreUsuario" class="form-control" />
+    </div>
+
+    <div>
+        <label>Contraseña</label>
+        <input asp-for="LoginInput.PasswordHash" type="password" class="form-control" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+</form>

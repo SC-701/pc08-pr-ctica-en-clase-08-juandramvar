@@ -1,15 +1,10 @@
-using Abstracciones.Interfaces.DA;
-using Abstracciones.Interfaces.Flujo;
-using Abstracciones.Interfaces.Reglas;
-using Abstracciones.Interfaces.Servicios;
+using Abstracciones.DA;
+using Abstracciones.Flujo;
 using DA;
-using DA.Repositorios;
 using Flujo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Autorizacion.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IProductoFlujo, ProductoFlujo>();
-builder.Services.AddScoped<IProductoDA, ProductoDA>();
-builder.Services.AddScoped<IRepositorioDapper, RepositorioDapper>();
-builder.Services.AddHttpClient();
-builder.Services.AddScoped<ITipoCambioServicio, TipoCambioServicio>();
-builder.Services.AddScoped<IProductoReglas, ProductoReglas>();
+builder.Services.AddScoped<IAutenticacionDA, AutenticacionDA>();
+builder.Services.AddScoped<IAutenticacionFlujo, AutenticacionFlujo>();
 
 var tokenKey = builder.Configuration["Token:Key"];
 var issuer = builder.Configuration["Token:Issuer"];
@@ -45,7 +36,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
-builder.Services.AddAutorizacionMiddleware();
 
 var app = builder.Build();
 
@@ -59,7 +49,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-app.AutorizacionClaims();
 app.UseAuthorization();
 
 app.MapControllers();
